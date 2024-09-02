@@ -24,7 +24,7 @@ class Url(models.Model):
         ordering = ['created_at']
 
 class Visit(models.Model):
-    url = models.ForeignKey(Url, on_delete=models.CASCADE, related_name='url_visit')
+    url = models.ForeignKey(Url, on_delete=models.CASCADE, related_name='visit_url')
     ip_address = models.GenericIPAddressField()
     browser_client = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now=True)

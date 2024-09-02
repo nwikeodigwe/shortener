@@ -1,9 +1,8 @@
 services:
   web:
-    build: app
-    env_file:
-      - .env
-    command: ./wait-for-it.sh mysql:3306 -- ./docker-entrypoint.sh
+    build:
+      context: ./app
+    command: ./wait-for-it.sh mysql:3306 -t 60 -- ./docker-entrypoint.sh
     ports:
       - 8000:8000
     depends_on:
@@ -11,11 +10,11 @@ services:
       - mysql
     restart: on-failure
     volumes:
-      - app:/app
+      - ./app:/app
   mysql:
     image: mysql:8.0
     ports:
-      - 3306:3306
+      - 3307:3306
     restart: always
     environment:
       - MYSQL_DATABASE=shortener
@@ -32,5 +31,4 @@ services:
       - redisdata:/data
 volumes:
   mysqldata:
-  pgdata:
   redisdata:

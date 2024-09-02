@@ -8,10 +8,11 @@ django = "*"
 django-debug-toolbar = "*"
 mypy = "*"
 mysqlclient = "*"
-python-dotenv = "*"
 djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
+drf-nested-routers = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
