@@ -5,6 +5,8 @@ import APIClient from "../../services/api-client";
 import { AxiosError } from "axios";
 import { produce } from "immer";
 import { ResponseStateContext } from "../../context/UrlResponseContext";
+import { Input } from "@/components/ui/input";
+import { Button } from "../ui/button";
 
 interface UrlShortenFormProps {
   long_url: string;
@@ -61,24 +63,24 @@ const UrlShortenForm = () => {
     <form onSubmit={handleSubmit(submitFn)} method="POST" className="w-full">
       <div className="grid grid-cols-12 gap-1">
         <div className="flex flex-col col-span-9 gap-2">
-          <input
+          <Input
             disabled={isSubmitting}
             {...register("long_url", { required: "URL is required" })}
             type="text"
-            className="w-full p-4 border-[1px] shadow-md border-gray-200 rounded-sm"
+            className="w-full border-none focus:border-none bg-slate-50/20 h-14 shadow-md rounded-sm"
           />
           {errors.long_url && (
             <ErrorMessage>{errors.long_url.message?.toString()}</ErrorMessage>
           )}
         </div>
         <div className="col-span-3">
-          <button
+          <Button
             type="submit"
-            className="p-4 shadow-md w-full rounded-sm bg-green-700 text-white hover:bg-green-800"
+            className="shadow-md h-14 w-full rounded-sm bg-green-700 text-white hover:bg-green-800 font-semibold"
             disabled={isSubmitting}
           >
             Shorten URL
-          </button>
+          </Button>
         </div>
       </div>
     </form>

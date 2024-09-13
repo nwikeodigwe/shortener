@@ -9,33 +9,32 @@ import getIpInfo from "@/functions/getIpInfo";
 const apiClient = new APIClient("urls/");
 
 const UrlRedirect = () => {
-  const [invalidRedirect, setValidRedirect] = useState(false);
+  const [invalidRedirect, setInvalidRedirect] = useState(false);
   const [data, setData] = useState({ payload: {}, browser_client: {} });
   const { url_code } = useParams();
 
   useEffect(() => {
-    const RedirectUrl = async () => {
+    const setBrowserData = async () => {
       const ip = await getIpInfo();
       const browser = await getBrowserClient();
       setData({
         payload: ip,
         browser_client: browser,
       });
-
       try {
         const res = (await apiClient.get(`${url_code}/`)) as Response;
-        if (res.long_url) {
-          const create = await apiClient.post(data, `${url_code}/visits/`);
-          console.log(create);
+        if (res.long_url && ip && browser && res.status === "active") {
+          console.log(data);
+          await apiClient.post(data, `${url_code}/visits/`);
           window.location.href = res.long_url;
         } else {
-          setValidRedirect(true);
+          setInvalidRedirect(true);
         }
       } catch (err) {
         console.error(err);
       }
     };
-    RedirectUrl();
+    setBrowserData();
   }, [data, url_code]);
 
   return <>{invalidRedirect && <HomePage />}</>;
