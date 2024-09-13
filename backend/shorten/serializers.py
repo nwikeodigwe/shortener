@@ -3,6 +3,8 @@ from .models import Url, Visit
 
 class UrlSerializer(serializers.ModelSerializer):
     visit_count = serializers.SerializerMethodField(method_name='get_visit_count')
+    url_code = serializers.CharField(required=False, allow_blank=True)
+    expiration = serializers.DateTimeField(required=False)
 
     def get_visit_count(self, obj):
         return obj.visit_url.count()
@@ -18,9 +20,11 @@ class VisitSerializer(serializers.ModelSerializer):
         return obj.url.long_url
     
     def create(self, validated_data):
-        url_id = self.context['url_id']
-        return Visit.objects.create(url_id=url_id, **validated_data)
+        url_code = self.context.get('url_code')
+        url = Url.objects.get(url_code=url_code)
+        print('Validated Data', validated_data)
+        return Visit.objects.create(url=url, **validated_data)
 
     class Meta:
         model = Visit
-        fields = ['id', 'ip_address', 'browser_client', 'url', 'created_at']
+        fields = ['id', 'payload', 'browser_client', 'url', 'created_at']

@@ -11,7 +11,8 @@ RUN pip install pipenv
 
 COPY Pipfile Pipfile.lock /app/
 RUN pipenv install --system --dev
+RUN pip install watchdog
 
-COPY . /app/
+COPY . .
 
 EXPOSE 8000

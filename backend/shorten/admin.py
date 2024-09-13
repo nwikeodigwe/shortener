@@ -66,5 +66,5 @@ class UrlAdmin(admin.ModelAdmin):
 @admin.register(Visit)
 class VisitAdmin(admin.ModelAdmin):
     autocomplete_fields = ['url']
-    list_display = ['browser_client', 'ip_address', 'created_at']
+    list_display = ['browser_client', 'payload', 'created_at']
     list_per_page = 10

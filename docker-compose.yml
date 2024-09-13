@@ -1,34 +1,55 @@
 services:
-  web:
+  frontend:
     build:
-      context: ./app
-    command: ./wait-for-it.sh mysql:3306 -t 60 -- ./docker-entrypoint.sh
+      context: frontend
+    command: npm run dev -- --host
+    ports:
+      - 3000:5173
+    networks:
+      - shortener_default
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+  backend:
+    build:
+      context: backend
+    command: ./wait-for-it.sh mysql:3306 -t 30 -- ./docker-entrypoint.sh
     ports:
       - 8000:8000
+    networks:
+      - shortener_default
     depends_on:
       - redis
       - mysql
     restart: on-failure
     volumes:
-      - ./app:/app
+      - ./backend:/app
   mysql:
     image: mysql:8.0
     ports:
       - 3307:3306
+    networks:
+      - shortener_default
     restart: always
     environment:
       - MYSQL_DATABASE=shortener
       - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_USER=root
     volumes:
       - mysqldata:/var/lib/mysql
   redis:
     image: redis:6.2-alpine
     ports:
       - 6379:6379
+    networks:
+      - shortener_default
     restart: always
     volumes:
       - redisdata:/data
+networks:
+  shortener_default:
+    driver: bridge
 volumes:
   mysqldata:
   redisdata:

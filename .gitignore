@@ -1,3 +1,33 @@
-/app/.mypy_cache
-/app/.vscode
-/app/.env
+/backend/.mypy_cache
+/backend/.vscode
+/backend/.env
+
+*.env
+
+# Environment variables
+/frontend/*.env
+
+# Logs
+/frontend/logs
+*.log
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/frontend/pnpm-debug.log*
+/frontend/lerna-debug.log*
+
+/frontend/node_modules
+/frontend/dist
+/frontend/dist-ssr
+*.local
+
+# Editor directories and files
+/frontend/.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
